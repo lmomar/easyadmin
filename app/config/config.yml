@@ -1,0 +1,183 @@
+imports:
+    - { resource: parameters.yml }
+    - { resource: security.yml }
+    - { resource: services.yml }
+
+# Put parameters here that don't need to change on each machine where the app is deployed
+# https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
+parameters:
+    locale: fr
+
+framework:
+    #esi: ~
+    translator: { fallbacks: ['fr'] }
+    secret: '%secret%'
+    router:
+        resource: '%kernel.root_dir%/config/routing.yml'
+        strict_requirements: ~
+    form: ~
+    csrf_protection: ~
+    validation: { enable_annotations: true }
+    #serializer: { enable_annotations: true }
+    templating:
+        engines: ['twig']
+    default_locale: '%locale%'
+    trusted_hosts: ~
+    trusted_proxies: ~
+    session:
+        # handler_id set to null will use default session handler from php.ini
+        handler_id: ~
+    fragments: ~
+    http_method_override: true
+
+# Twig Configuration
+twig:
+    debug: '%kernel.debug%'
+    strict_variables: '%kernel.debug%'
+
+# Doctrine Configuration
+doctrine:
+    dbal:
+        driver: pdo_mysql
+        host: '%database_host%'
+        port: '%database_port%'
+        dbname: '%database_name%'
+        user: '%database_user%'
+        password: '%database_password%'
+        charset: UTF8
+        # if using pdo_sqlite as your database driver:
+        #   1. add the path in parameters.yml
+        #     e.g. database_path: '%kernel.root_dir%/data/data.db3'
+        #   2. Uncomment database_path in parameters.yml.dist
+        #   3. Uncomment next line:
+        #path: '%database_path%'
+
+    orm:
+        auto_generate_proxy_classes: '%kernel.debug%'
+        naming_strategy: doctrine.orm.naming_strategy.underscore
+        auto_mapping: true
+
+# Swiftmailer Configuration
+swiftmailer:
+    transport: '%mailer_transport%'
+    host: '%mailer_host%'
+    username: '%mailer_user%'
+    password: '%mailer_password%'
+    spool: { type: memory }
+
+easy_admin:
+    design:
+        brand_color: 'rgba(26, 188, 156, 0.85)'
+    entities:
+        Pharmacie:
+            class: AppBundle\Entity\Pharmacie
+            label: Les pharmacies
+            list:
+                title:  Liste des pharmacies
+                actions:
+                    - show
+                    - { name: new, label: Nouvelle pharmacie}
+                fields:
+                    - id
+                    - nom
+                    - ville
+                    - created
+            new:
+                title: Nouvelle pharmacie
+            edit:
+                title: Modification de la pharmacie
+            show:
+                title: Détail de la pharmacie
+            form:
+              fields:
+                  - nom
+                  - ville
+                  - { property: pharmacieGroup,label: Groupe}
+        pharmacieGroup:
+            class: AppBundle\Entity\pharmacieGroup
+            label: Les groupes
+            list:
+                title:  Liste des groupes
+                actions:
+                    - show
+                    - { name: new, label: Nouvel groupe}
+                fields:
+                    - id
+                    - nom
+                    - created
+            new:
+                title: Nouvel groupe
+            edit:
+                title: Modification du groupe
+            show:
+                title: Détail du groupe
+            form:
+              fields:
+                  - nom
+        Coupon:
+            class: AppBundle\Entity\Coupon
+            label: Les coupons
+            list:
+                title:  Liste des coupons
+                actions:
+                    - show
+                    - { name: new, label: Nouvel coupon}
+                fields:
+                    - id
+                    - titre
+                    - code
+                    - pharmacie
+                    - { property: pharmacieGroup,label: Groupe}
+                    - created
+            new:
+                title: Nouvel coupon
+            edit:
+                title: Modification du coupon
+            show:
+                title: Détail du coupon
+            form:
+              fields:
+                  - titre
+                  - code
+                  - { property: pharmacie}
+                  - { property: pharmacieGroup,label: Groupe}
+        User:
+            class: AppBundle\Entity\User
+            label: Utilisateurs
+            list:
+                title:  Liste des utilisateurs
+                actions:
+                    - show
+                    - { name: new, label: Nouvel utilisateur}
+                fields:
+                    - id
+                    - nom
+                    - prenom
+                    - username
+                    - email
+                    - enabled
+                    - roles
+                    - created
+            new:
+                title: Nouvel utilisateur
+            edit:
+                title: Modification de l'utilisateur
+            show:
+                title: Détail de l'utilisateur
+            form:
+              fields:
+                  - nom
+                  - prenom
+                  - username
+                  - email
+                  - { property: 'plainPassword',label: 'Mot de passe',type: 'text'}
+                  - { property: 'roles',type: 'choice' ,type_options:{ multiple: true, choices: {ROLE_USER: ROLE_USER,ROLE_ADMIN:ROLE_ADMIN}}}
+
+
+fos_user:
+    db_driver: orm
+    firewall_name: main
+    user_class: AppBundle\Entity\User
+    from_email:
+        address: "test@test.dev"
+        sender_name: "omar"
