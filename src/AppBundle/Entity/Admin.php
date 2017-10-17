@@ -7,15 +7,13 @@ use PUGX\MultiUserBundle\Validator\Constraints\UniqueEntity;
 /**
  * Admin
  *
- * @ORM\Entity()
- * @ORM\Table(name="admin")
  * /**
  * @ORM\Entity
- * @ORM\Table(name="user_two")
+ * @ORM\Table(name="admin")
  * @UniqueEntity(fields = "username", targetClass = "AppBundle\Entity\User", message="fos_user.username.already_used")
  * @UniqueEntity(fields = "email", targetClass = "AppBundle\Entity\User", message="fos_user.email.already_used")
  */
-class Admin
+class Admin extends User
 {
     /**
      * @var int

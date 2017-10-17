@@ -21,3 +21,9 @@ fos_user_resetting:
 fos_user_change_password:
     resource: "@FOSUserBundle/Resources/config/routing/change_password.xml"
     prefix: /profile
+admin_registration:
+    path:  /register/admin
+    defaults: { _controller: AppBundle:RegistrationAdmin:register }
+pharmacien_registration:
+    path:  /register/pharmacien
+    defaults: { _controller: AppBundle:RegistrationPharmacien:register }

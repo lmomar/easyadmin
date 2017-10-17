@@ -12,7 +12,7 @@ use PUGX\MultiUserBundle\Validator\Constraints\UniqueEntity;
  * @UniqueEntity(fields = "username", targetClass = "AppBundle\Entity\User", message="fos_user.username.already_used")
  * @UniqueEntity(fields = "email", targetClass = "AppBundle\Entity\User", message="fos_user.email.already_used")
  */
-class Pharmacien
+class Pharmacien extends User
 {
     /**
      * @var int
@@ -26,7 +26,7 @@ class Pharmacien
     /**
      * @var string
      *
-     * @ORM\Column(name="tel", type="string", length=255)
+     * @ORM\Column(name="tel", type="string", length=255,nullable=true)
      */
     private $tel;
 

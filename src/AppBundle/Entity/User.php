@@ -7,13 +7,13 @@ use FOS\UserBundle\Model\User as BaseUser;
 /**
  * User
  *
- * @ORM\Entity()
- * @ORM\Table(name="fos_user")
+ * @ORM\Entity
+ * @ORM\Table(name="user")
  * @ORM\InheritanceType("JOINED")
  * @ORM\DiscriminatorColumn(name="type",type="string")
- * @ORM\DiscriminatorMap({"user_one" = "Admin","user_two" = "Pharmacien"})
+ * @ORM\DiscriminatorMap({"admin" = "Admin","pharmacien" = "Pharmacien"})
  */
-class User extends BaseUser
+abstract class User extends BaseUser
 {
     public function __construct()
     {

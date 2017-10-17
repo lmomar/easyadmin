@@ -181,3 +181,25 @@ fos_user:
     from_email:
         address: "test@test.dev"
         sender_name: "omar"
+    service:
+        user_manager: pugx_user_manager
+
+pugx_multi_user:
+  users:
+    pharmacien:
+        entity:
+          class: AppBundle\Entity\Pharmacien
+#          factory:
+        registration:
+          form:
+            type: AppBundle\Form\Type\RegistrationPharmacienFormType.php
+            name: fos_user_registration_form
+            validation_groups:  [Registration, Default]
+          template: AppBundle:Registration:Pharmacie.form.html.twig
+    admin:
+        entity:
+          class: AppBundle\Entity\Admin
+        registration:
+          form:
+            type: AppBundle\Form\Type\RegistrationAdminFormType.php
+          template: AppBundle:Registration:Admin.form.html.twig
